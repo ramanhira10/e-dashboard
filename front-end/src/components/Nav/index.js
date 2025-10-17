@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Nav = () => {
@@ -18,6 +19,13 @@ const Nav = () => {
     }
     return '';
   }
+
+  useEffect(() => {
+    const auth = localStorage.getItem('user');
+    if (auth) {
+      navigate('/');
+    }
+  });
   
   return (
     <nav>
@@ -38,14 +46,25 @@ const Nav = () => {
           {
             auth ?
               (<Link
-                to="/signup"
+                to="/logout"
                 onClick={logoutAndRedirectToSignUp}
               >Logout ({getName()})</Link>) :
-              (<Link
-                to="/signup"
-              >Sign Up</Link>)
+              (
+                <>
+                  <Link
+                    to="/signup"
+                  >Sign Up</Link>
+
+                  <Link
+                    to="/login"
+                  >Log in</Link>
+                </>
+                
+              )
           }
         </li>
+
+        
       </ul>
     </nav>
   );
